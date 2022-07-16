@@ -20,7 +20,6 @@ def CalculateCheapestOilCombinationsForOneMonth(MonthCostDict,HardnessDict):
 
     #Goes through each oil and calculates the cheapest that it could be when combined with each other oil
     # [Oil1,Oil2,ratio,CostPerTonne,NumberOfTonnesProducable]
-    BigArray = []
     CheapestCostAsMainIngredient = []
     for i in MonthCostDict:
         for j in MonthCostDict:
@@ -29,7 +28,7 @@ def CalculateCheapestOilCombinationsForOneMonth(MonthCostDict,HardnessDict):
             if Hardness[i] == Hardness[j]:
                 ratio = 1
                 if Hardness[i] > 6 or Hardness[i] < 3:
-                    ListOfCosts.append([i,j,ratio,float("inf"),0])
+                    ListOfCosts.append([i,j,ratio,MonthCostDict[i],0])
                 else:
                     if i[0] == "V" and j[0] == "V":
                         ListOfCosts.append([i,j,ratio,MonthCostDict[i],VegetableOilMonthlyRefineMaxTonnes])
@@ -66,26 +65,30 @@ def CalculateCheapestOilCombinationsForOneMonth(MonthCostDict,HardnessDict):
                         jmax = OilMontlyRefineMaxTonnes
                     
                     if imax * ratio < jmax * (1-ratio):
-                        ListOfCosts.append([i,j,ratio,MonthCostDict[i] * ratio + MonthCostDict[j] * (1-ratio),jmax + jmax*((1-ratio)/ratio)])
+                        ListOfCosts.append([i,j,ratio,MonthCostDict[i] * ratio + MonthCostDict[j] * (1-ratio),jmax + jmax*(ratio/(1-ratio))])
                     else:
                         ListOfCosts.append([i,j,ratio,MonthCostDict[i] * ratio + MonthCostDict[j] * (1-ratio),imax + imax*((1-ratio)/ratio)])
 
             CheapestCostAsMainIngredient.append(ListOfCosts)
-        BigArray.append(CheapestCostAsMainIngredient)
 
     #Nice Printing procedure
-    for row in BigArray:
-        for collumn in row:
-            print(collumn)
-        print("\n")
+    for row in CheapestCostAsMainIngredient:
+        print(row)
+    print("\n")
 
-    #Finds the best profits, NEED TO CONSIDR THE MAXIMUM REFINEMENT REQUIREMENTS
-    OverAllMostProfitCombination = [CheapestCostAsMainIngredient[0][0][0],CheapestCostAsMainIngredient[0][0][1],CheapestCostAsMainIngredient[0][0][2],CheapestCostAsMainIngredient[0][0][3],CheapestCostAsMainIngredient[0][0][4]]
+    #Finds the best profits:  [Oil1,Oil2,ratio,CostPerTon,NumberOfTonnesProducable,Profit]
+    OverAllMostProfitCombination = [CheapestCostAsMainIngredient[0][0][0],CheapestCostAsMainIngredient[0][0][1],CheapestCostAsMainIngredient[0][0][2],CheapestCostAsMainIngredient[0][0][3],CheapestCostAsMainIngredient[0][0][4],CheapestCostAsMainIngredient[0][0][4] *(150 - CheapestCostAsMainIngredient[0][0][3])]
     for i in range(0,len(CheapestCostAsMainIngredient)):
         for j in range(0,len(CheapestCostAsMainIngredient[i])):
-            if CheapestCostAsMainIngredient[i][j][3] < OverAllMostProfitCombination[3]:
-                OverAllMostProfitCombination = [CheapestCostAsMainIngredient[i][j][0],CheapestCostAsMainIngredient[i][j][1],CheapestCostAsMainIngredient[i][j][2],CheapestCostAsMainIngredient[i][j][3],CheapestCostAsMainIngredient[0][0][4]]
+            print(CheapestCostAsMainIngredient[i][j][4] * (150 - CheapestCostAsMainIngredient[i][j][3]))
+            if CheapestCostAsMainIngredient[i][j][4] * (150 - CheapestCostAsMainIngredient[i][j][3]) > OverAllMostProfitCombination[5]:
+                OverAllMostProfitCombination = [CheapestCostAsMainIngredient[i][j][0],CheapestCostAsMainIngredient[i][j][1],CheapestCostAsMainIngredient[i][j][2],CheapestCostAsMainIngredient[i][j][3],CheapestCostAsMainIngredient[i][j][4],CheapestCostAsMainIngredient[i][j][4] * (150 - CheapestCostAsMainIngredient[i][j][3])]
     
     print(OverAllMostProfitCombination)
 
 CalculateCheapestOilCombinationsForOneMonth(JANCOSTS,Hardness)
+
+"""
+First Estimate: Combine V1 and V2 with a ratio of 0.391304...
+                This should give a profit of £16428.57
+"""
