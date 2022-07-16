@@ -5,3 +5,19 @@ MARCOSTS = {"V1": 110, "V2": 140, "O1": 130, "O2": 100, "O3": 95}
 APRCOSTS = {"V1": 120, "V2": 110, "O1": 120, "O2": 120, "O3": 125}
 MAYCOSTS = {"V1": 100, "V2": 120, "O1": 150, "O2": 110, "O3": 105}
 JUNCOSTS = {"V1": 90, "V2": 100, "O1": 140, "O2": 80, "O3": 135}
+
+FinalProductPricePerTon = 150
+VegetableOilMonthlyRefineMaxTonnes = 200
+OilMontlyRefineMaxTonnes = 250
+
+EachRawOilMaxStorageTonnes = 1000
+EachRawOilStorageCostTonnesPerMonth = 5
+
+HardnessMax = 6
+HardnessMin = 3
+
+def CalculateCheapestOilCombinationsForOneMonth(MonthCostDict,HardnessDict):
+    for i in MonthCostDict:
+        print(i)
+
+CalculateCheapestOilCombinationsForOneMonth(JANCOSTS,Hardness)
