@@ -97,5 +97,5 @@ CalculateCheapestOilCombinationsForOneMonth(JANCOSTS,Hardness)
 First Estimate: Combine V1 with O2 with a ratio of 0.391:0.609
                 This should give a profit of £16428.57
 
-Possible issue with the ratios, could be massively increasing profits.
+Ratio could be made simpler, but it works as is.
 """
