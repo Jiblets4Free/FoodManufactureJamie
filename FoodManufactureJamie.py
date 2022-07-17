@@ -91,4 +91,6 @@ CalculateCheapestOilCombinationsForOneMonth(JANCOSTS,Hardness)
 """
 First Estimate: Combine V1 and V2 with a ratio of 0.391304...
                 This should give a profit of £16428.57
+
+Possible issue with the ratios, could be massively increasing profits.
 """
