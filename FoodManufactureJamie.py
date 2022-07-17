@@ -64,8 +64,10 @@ def CalculateCheapestOilCombinationsForOneMonth(AllMonthlyCostsDict,ThisMonthCos
                         jmax = VegetableOilMonthlyRefineMaxTonnes
                     else:
                         jmax = OilMontlyRefineMaxTonnes
-                    
-                    if imax * ratio < jmax * (1-ratio):
+
+                    if imax == jmax:
+                        ListOfCosts.append([i,j,ratio,ThisMonthCostDict[i] * ratio + ThisMonthCostDict[j] * (1-ratio),imax])
+                    elif imax * ratio < jmax * (1-ratio):
                         ListOfCosts.append([i,j,ratio,ThisMonthCostDict[i] * ratio + ThisMonthCostDict[j] * (1-ratio),jmax + jmax*(ratio/(1-ratio))])
                     else:
                         ListOfCosts.append([i,j,ratio,ThisMonthCostDict[i] * ratio + ThisMonthCostDict[j] * (1-ratio),imax + imax*((1-ratio)/ratio)])
@@ -73,12 +75,12 @@ def CalculateCheapestOilCombinationsForOneMonth(AllMonthlyCostsDict,ThisMonthCos
         CheapestCostAsMainIngredient.append(ListOfCosts)
 
     #Nice Printing procedure
-    """
+
     for row in CheapestCostAsMainIngredient:
         for collumn in row:
             print(collumn)
         print("\n")
-    """
+
 
     #print(CheapestCostAsMainIngredient)
 
@@ -93,11 +95,13 @@ def CalculateCheapestOilCombinationsForOneMonth(AllMonthlyCostsDict,ThisMonthCos
     print("\nCombine " + OverAllMostProfitCombination[0] + " with " + OverAllMostProfitCombination[1] + " with a ratio of " + str(round(OverAllMostProfitCombination[2],3)) + ":" + str(round(1-OverAllMostProfitCombination[2],3)) + "\nThis should give a profit of " + str('£{:,.2f}'.format(OverAllMostProfitCombination[5])) + "\n")
     return OverAllMostProfitCombination
 
-TotalProfit = 0
-for Month in MonthlyCostsDict:
-    TotalProfit += CalculateCheapestOilCombinationsForOneMonth(MonthlyCostsDict,MonthlyCostsDict[Month],Hardness)[5]
+print(CalculateCheapestOilCombinationsForOneMonth(MonthlyCostsDict,MonthlyCostsDict["FEBCOSTS"],Hardness))
 
-print("Total Profit: " + str('£{:,.2f}'.format(TotalProfit)))
+#TotalProfit = 0
+#for Month in MonthlyCostsDict:
+#    TotalProfit += CalculateCheapestOilCombinationsForOneMonth(MonthlyCostsDict,MonthlyCostsDict[Month],Hardness)[5]
+
+#print("Total Profit: " + str('£{:,.2f}'.format(TotalProfit)))
 
 """
 First JAN Estimate: Combine V1 with O2 with a ratio of 0.391:0.609
